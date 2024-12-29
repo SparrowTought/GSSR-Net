@@ -356,25 +356,25 @@ class H_qe(nn.Module):
         outputs=[]
         res_HL = y_HH
 
-        y_HL = self.sig(torch.abs(self.sobel_x(x))) * y_HL + y_HL
-        y_LH = self.sig(torch.abs(self.sobel_y(x))) * y_LH + y_LH
-        y_HH = self.sig(torch.abs(self.sobel_yx(x))) * y_HH + y_HH
+        y_HL = self.sig(torch.abs(self.edge_x(x))) * y_HL + y_HL
+        y_LH = self.sig(torch.abs(self.edge_y(x))) * y_LH + y_LH
+        y_HH = self.sig(torch.abs(self.edge_yx(x))) * y_HH + y_HH
 
         return  y_HL, y_LH, y_HH
 
     def initialize_weights(self):
             """Initialize the weights of the convolutional layers with Sobel kernels."""
 
-            sobel_kernel_x = torch.tensor([[-1., 0., 1.], [-2., 0., 2.], [-1., 0., 1.]], dtype=torch.float32).view(1, 1, 3, 3)
-            sobel_kernel_y = torch.tensor([[-1., -2., -1.], [0., 0., 0.], [1., 2., 1.]], dtype=torch.float32).view(1, 1, 3, 3)
-            sobel_kernel_yx = torch.tensor([[0., 1., 2.], [-1., 0., 1.], [-2., -1., 0.]], dtype=torch.float32).view(1, 1, 3, 3)
-            sobel_kernel_x = sobel_kernel_x.repeat(self.in_channels, 1, 1, 1)
-            sobel_kernel_y = sobel_kernel_y.repeat(self.in_channels, 1, 1, 1)
-            sobel_kernel_yx = sobel_kernel_yx.repeat(self.in_channels, 1, 1, 1)
+            edge_kernel_x = torch.tensor([[-1., 0., 1.], [-2., 0., 2.], [-1., 0., 1.]], dtype=torch.float32).view(1, 1, 3, 3)
+            edge_kernel_y = torch.tensor([[-1., -2., -1.], [0., 0., 0.], [1., 2., 1.]], dtype=torch.float32).view(1, 1, 3, 3)
+            edge_kernel_yx = torch.tensor([[0., 1., 2.], [-1., 0., 1.], [-2., -1., 0.]], dtype=torch.float32).view(1, 1, 3, 3)
+            edge_kernel_x = edge_kernel_x.repeat(self.in_channels, 1, 1, 1)
+            edge_kernel_y = edge_kernel_y.repeat(self.in_channels, 1, 1, 1)
+            edge_kernel_yx = edge_kernel_yx.repeat(self.in_channels, 1, 1, 1)
             with torch.no_grad():
-                self.sobel_x.weight = nn.Parameter(sobel_kernel_x, requires_grad=False)
-                self.sobel_y.weight = nn.Parameter(sobel_kernel_y, requires_grad=False)
-                self.sobel_yx.weight = nn.Parameter(sobel_kernel_yx, requires_grad=False)
+                self.edge_x.weight = nn.Parameter(edge_kernel_x, requires_grad=False)
+                self.edge_y.weight = nn.Parameter(edge_kernel_y, requires_grad=False)
+                self.edge_yx.weight = nn.Parameter(edge_kernel_yx, requires_grad=False)
 
 
 class EdgeAttention(nn.Module):
