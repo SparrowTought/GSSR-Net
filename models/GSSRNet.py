@@ -216,10 +216,10 @@ class GSSRNet(nn.Module):
 
     def forward(self, x1, x2):
         outputs = []
-        pvt, pvt2 = self.backbone(x1,x2)
+        backbone, backbone2 = self.backbone(x1,x2)
 
-        x_c1_1p, x_c1_2p, x_c1_3p, x_c1_4p = pvt[0], pvt[1], pvt[2], pvt[3]
-        y_c1_1p, y_c1_2p, y_c1_3p, y_c1_4p = pvt2[0], pvt2[1], pvt2[2], pvt2[3]
+        x_c1_1p, x_c1_2p, x_c1_3p, x_c1_4p = backbone[0], backbone[1], backbone[2], backbone[3]
+        y_c1_1p, y_c1_2p, y_c1_3p, y_c1_4p = backbone2[0], backbone2[1], backbone2[2], backbone2[3]
 
         cross5 = self.Short1(y_c1_4p, x_c1_4p)
         cross4 = self.Short2(y_c1_3p, x_c1_3p)
