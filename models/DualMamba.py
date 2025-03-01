@@ -74,7 +74,7 @@ class Block(nn.Module):
 
         if self.ssm_branch:
             self.norm = norm_layer(dim // 2)
-            self.op = DSSM(
+            self.op = DualSSM(
                 d_model=dim ,
                 d_state=ssm_d_state,
                 ssm_ratio=ssm_ratio,
